@@ -7,14 +7,14 @@ It uses the Spigot API entity classes, so that the general usage is familiar.
 
 ```xml
 <repository>
-    <id>cubbossa_repository</id>
-    <url>https://nexus.leonardbausenwein.de/repository/maven-releases/</url>
+    <id>crazydev22_public</id>
+    <url>https://repo.crazydev22.de/public</url>
 </repository>
 
 <dependency>
     <groupId>de.cubbossa</groupId>
     <artifactId>ClientEntities</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.6</version>
 </dependency>
 ```
 
