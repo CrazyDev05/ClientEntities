@@ -291,6 +291,11 @@ public class ClientPlayer extends ClientLivingEntity implements HumanEntity {
 
   }
 
+  @Override
+  public void startRiptideAttack(int i, float v, @Nullable ItemStack itemStack) {
+    throw new ServerSideMethodNotSupported();
+  }
+
   @NotNull
   @Override
   public GameMode getGameMode() {

@@ -337,6 +337,11 @@ public abstract class ClientLivingEntity extends ClientDamageable implements Liv
     setMeta(pose, Pose.SWIMMING);
   }
 
+  @Override
+  public void setRiptiding(boolean b) {
+    setMeta(pose, Pose.SPIN_ATTACK);
+  }
+
   public boolean isRiptiding() {
     return pose.getValue() == Pose.SPIN_ATTACK;
   }

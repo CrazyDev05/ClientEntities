@@ -1,7 +1,7 @@
 package de.cubbossa.cliententities.entity;
 
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
-import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
+import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import de.cubbossa.cliententities.PlayerSpaceImpl;
 import de.cubbossa.cliententities.TrackedField;
 import de.cubbossa.cliententities.entitydata.ItemDisplayDataWrapper;
@@ -18,8 +18,8 @@ public class ClientItemDisplay extends ClientDisplay implements ItemDisplay {
     TrackedField<ItemStack> itemStack = new TrackedField<>(new ItemStack(Material.AIR));
     TrackedField<ItemDisplay.ItemDisplayTransform> itemDisplayTransform = new TrackedField<>(ItemDisplay.ItemDisplayTransform.NONE);
 
-    public ClientItemDisplay(PlayerSpaceImpl playerSpace, int entityId, EntityType entityType) {
-        super(playerSpace, entityId, entityType);
+    public ClientItemDisplay(PlayerSpaceImpl playerSpace, int entityId) {
+        super(playerSpace, entityId, EntityTypes.ITEM_DISPLAY);
     }
 
     @Override
