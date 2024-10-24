@@ -29,9 +29,9 @@ public class ClientAbstractVillager extends ClientAgeableMob implements Abstract
     }
 
     @Override
-    List<EntityData> metaData() {
-        List<EntityData> data = super.metaData();
-        if (headShakeTimer.hasChanged()) {
+    List<EntityData> metaData(boolean force) {
+        List<EntityData> data = super.metaData(force);
+        if (headShakeTimer.hasChanged() || force) {
             data.add(new EntityData(17, EntityDataTypes.INT, headShakeTimer.getValue()));
             headShakeTimer.flushChanged();
         }

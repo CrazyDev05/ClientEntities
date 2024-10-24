@@ -102,25 +102,25 @@ public class ClientTextDisplay extends ClientDisplay implements TextDisplay {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (text.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (text.hasChanged() || force) {
       data.add(TextDisplayDataWrapper.text(text.getValue()));
       text.flushChanged();
     }
-    if (lineWidth.hasChanged()) {
+    if (lineWidth.hasChanged() || force) {
       data.add(TextDisplayDataWrapper.textWidth(lineWidth.getValue()));
       lineWidth.flushChanged();
     }
-    if (backgroundColor.hasChanged()) {
+    if (backgroundColor.hasChanged() || force) {
       data.add(TextDisplayDataWrapper.backgroundColor(backgroundColor.getValue() == null ? 0x40000000 : backgroundColor.getValue().asARGB()));
       backgroundColor.flushChanged();
     }
-    if (textOpacity.hasChanged()) {
+    if (textOpacity.hasChanged() || force) {
       data.add(TextDisplayDataWrapper.textOpacity(textOpacity.getValue()));
       textOpacity.flushChanged();
     }
-    if (shadowed.hasChanged() || seeThrough.hasChanged() || defaultBackground.hasChanged() || alignment.hasChanged()) {
+    if (shadowed.hasChanged() || seeThrough.hasChanged() || defaultBackground.hasChanged() || alignment.hasChanged() || force) {
       data.add(TextDisplayDataWrapper.options(
           shadowed.getValue(),
           seeThrough.getBooleanValue(),

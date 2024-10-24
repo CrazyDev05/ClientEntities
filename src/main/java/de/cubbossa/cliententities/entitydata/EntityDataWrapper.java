@@ -5,9 +5,11 @@ import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
 import com.github.retrooper.packetevents.protocol.entity.pose.EntityPose;
+
 import java.util.Map;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
+import org.bukkit.Color;
 
 public class EntityDataWrapper {
 
@@ -124,12 +126,12 @@ public class EntityDataWrapper {
     };
   }
 
-  public static EntityData customName(Component component) {
-    return customName(SERIALIZER.serialize(component));
+  public static EntityData customName(String componentGson) {
+    return customName(SERIALIZER.deserialize(componentGson));
   }
 
-  public static EntityData customName(String componenGson) {
-    return new AbstractEntityDataWrapper(EntityDataTypes.OPTIONAL_COMPONENT, componenGson) {
+  public static EntityData customName(Component component) {
+    return new AbstractEntityDataWrapper(EntityDataTypes.OPTIONAL_ADV_COMPONENT, component) {
       @Override
       protected int versionedIndex() {
         return 2;

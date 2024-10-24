@@ -80,7 +80,7 @@ public class ClientPlayer extends ClientLivingEntity implements HumanEntity {
     );
     return List.of(
         new WrapperPlayServerPlayerInfoUpdate(EnumSet.of(WrapperPlayServerPlayerInfoUpdate.Action.ADD_PLAYER), data),
-        new WrapperPlayServerSpawnPlayer(entityId, uniqueId, SpigotConversionUtil.fromBukkitLocation(location), metaData())
+        new WrapperPlayServerSpawnPlayer(entityId, uniqueId, SpigotConversionUtil.fromBukkitLocation(location), metaData(false))
     );
   }
 
@@ -88,7 +88,7 @@ public class ClientPlayer extends ClientLivingEntity implements HumanEntity {
   public List<UpdateInfo> state(boolean onlyIfChanged) {
     List<UpdateInfo> info = super.state(onlyIfChanged);
 
-    if (displayInTab.hasChanged() || pingDisplay.hasChanged() || gameModeDisplay.hasChanged() || tabName.hasChanged()) {
+    if (displayInTab.hasChanged() || pingDisplay.hasChanged() || gameModeDisplay.hasChanged() || tabName.hasChanged() || !onlyIfChanged) {
       WrapperPlayServerPlayerInfoUpdate.PlayerInfo data = new WrapperPlayServerPlayerInfoUpdate.PlayerInfo(
           new UserProfile(uniqueId, name.getValue()),
           displayInTab.getBooleanValue(),
@@ -127,12 +127,12 @@ public class ClientPlayer extends ClientLivingEntity implements HumanEntity {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (skinMask.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (skinMask.hasChanged() || force) {
       data.add(new EntityData(17, EntityDataTypes.BYTE, skinMask.byteVal()));
     }
-    if (mainHand.hasChanged()) {
+    if (mainHand.hasChanged() || force) {
       data.add(new EntityData(18, EntityDataTypes.BYTE, mainHand.getValue() == MainHand.LEFT
           ? 1 : 0));
     }

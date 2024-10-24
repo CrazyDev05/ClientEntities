@@ -31,9 +31,9 @@ public class ClientBlockDisplay extends ClientDisplay implements BlockDisplay {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (block.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (block.hasChanged() || force) {
       data.add(BlockDisplayDataWrapper.block(SpigotConversionUtil.fromBukkitBlockData(block.getValue())));
       block.flushChanged();
     }

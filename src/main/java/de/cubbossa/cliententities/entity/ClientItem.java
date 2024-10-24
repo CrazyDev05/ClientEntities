@@ -96,8 +96,8 @@ public class ClientItem extends ClientEntity implements Item {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
     data.add(new EntityData(8, EntityDataTypes.ITEMSTACK, SpigotConversionUtil.fromBukkitItemStack(itemStack.getValue())));
     return data;
   }

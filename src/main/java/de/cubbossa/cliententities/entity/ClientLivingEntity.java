@@ -1,5 +1,6 @@
 package de.cubbossa.cliententities.entity;
 
+import com.github.retrooper.packetevents.manager.server.ServerVersion;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityData;
 import com.github.retrooper.packetevents.protocol.entity.data.EntityDataTypes;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityType;
@@ -8,11 +9,7 @@ import com.github.retrooper.packetevents.protocol.player.EquipmentSlot;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerAttachEntity;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerEntityEquipment;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerHurtAnimation;
-import de.cubbossa.cliententities.PlayerSpaceImpl;
-import de.cubbossa.cliententities.ServerSideMethodNotSupported;
-import de.cubbossa.cliententities.TrackedBoolField;
-import de.cubbossa.cliententities.TrackedEntityEquipment;
-import de.cubbossa.cliententities.TrackedField;
+import de.cubbossa.cliententities.*;
 import io.github.retrooper.packetevents.util.SpigotConversionUtil;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -500,7 +497,7 @@ public abstract class ClientLivingEntity extends ClientDamageable implements Liv
   public List<UpdateInfo> state(boolean onlyIfChanged) {
     List<UpdateInfo> info = super.state(onlyIfChanged);
 
-    if (equipment.hasChanged()) {
+    if (equipment.hasChanged() || !onlyIfChanged) {
 
       List<Equipment> equip = new ArrayList<>();
       equip.add(new Equipment(EquipmentSlot.BOOTS, SpigotConversionUtil.fromBukkitItemStack(equipment.getBoots())));
@@ -511,36 +508,40 @@ public abstract class ClientLivingEntity extends ClientDamageable implements Liv
       equip.add(new Equipment(EquipmentSlot.OFF_HAND, SpigotConversionUtil.fromBukkitItemStack(equipment.getItemInOffHand())));
 
       info.add(PacketInfo.packet(new WrapperPlayServerEntityEquipment(entityId, equip)));
-      equipment.setChanged(true);
+      equipment.setChanged(false);
     }
     return info;
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (isHandActive.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (isHandActive.hasChanged() || force) {
       data.add(new EntityData(8, EntityDataTypes.BYTE, (byte) (
           0x1 | (activeHandMainHand.getBooleanValue() ? 0 : 0x2) | (isRiptiding() ? 0x4 : 0)
           )));
     }
-    if (health.hasChanged()) {
+    if (health.hasChanged() || force) {
       data.add(new EntityData(9, EntityDataTypes.FLOAT, health.getValue().floatValue()));
     }
-    if (potionEffectColor.hasChanged()) {
-      data.add(new EntityData(10, EntityDataTypes.INT, potionEffectColor.getValue() == null
-          ? 0 : potionEffectColor.getValue().asRGB()));
+    if (potionEffectColor.hasChanged() || force) {
+      if (ClientEntities.getServerVersion().isNewerThanOrEquals(ServerVersion.V_1_21_1)) {
+        data.add(new EntityData(10, EntityDataTypes.PARTICLES, List.of()));
+      } else {
+        data.add(new EntityData(10, EntityDataTypes.INT, potionEffectColor.getValue() == null
+                ? 0 : potionEffectColor.getValue().asRGB()));
+      }
     }
-    if (potionEffectAmbient.hasChanged()) {
+    if (potionEffectAmbient.hasChanged() || force) {
       data.add(new EntityData(11, EntityDataTypes.BOOLEAN, potionEffectAmbient.getBooleanValue()));
     }
-    if (arrowsInBody.hasChanged()) {
+    if (arrowsInBody.hasChanged() || force) {
       data.add(new EntityData(12, EntityDataTypes.INT, arrowsInBody.getValue()));
     }
-    if (beeStingersInBody.hasChanged()) {
+    if (beeStingersInBody.hasChanged() || force) {
       data.add(new EntityData(13, EntityDataTypes.INT, beeStingersInBody.getValue()));
     }
-    if (bedLocation.hasChanged()) {
+    if (bedLocation.hasChanged() || force) {
       data.add(new EntityData(14, EntityDataTypes.OPTIONAL_BLOCK_POSITION, Optional.ofNullable(bedLocation.getValue() == null
           ? null : SpigotConversionUtil.fromBukkitLocation(bedLocation.getValue()))));
     }

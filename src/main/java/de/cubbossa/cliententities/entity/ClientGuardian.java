@@ -22,12 +22,12 @@ public class ClientGuardian extends ClientMob implements Guardian {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (retractingSpikes.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (retractingSpikes.hasChanged() || force) {
       data.add(new EntityData(16, EntityDataTypes.BOOLEAN, Boolean.TRUE.equals(retractingSpikes.getValue())));
     }
-    if (targetEntity.hasChanged() || showLaser.hasChanged()) {
+    if (targetEntity.hasChanged() || showLaser.hasChanged() || force) {
       data.add(new EntityData(17, EntityDataTypes.INT, targetEntity.getValue() == null ? 0 : targetEntity.getValue()));
     }
     return data;

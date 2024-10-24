@@ -35,9 +35,9 @@ public class ClientIronGolem extends ClientGolem implements IronGolem {
   }
 
   @Override
-  List<EntityData> metaData() {
-    var meta = super.metaData();
-    if (playerMade.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    var meta = super.metaData(force);
+    if (playerMade.hasChanged() || force) {
       meta.add(IronGolemDataWrapper.playerCreated(playerMade.getBooleanValue()));
     }
     return meta;

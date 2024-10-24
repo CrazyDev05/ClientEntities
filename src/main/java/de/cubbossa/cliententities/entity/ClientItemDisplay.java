@@ -23,12 +23,12 @@ public class ClientItemDisplay extends ClientDisplay implements ItemDisplay {
     }
 
     @Override
-    List<EntityData> metaData() {
-        List<EntityData> data = super.metaData();
-        if (itemStack.hasChanged()) {
+    List<EntityData> metaData(boolean force) {
+        List<EntityData> data = super.metaData(force);
+        if (itemStack.hasChanged() || force) {
             data.add(ItemDisplayDataWrapper.item(SpigotConversionUtil.fromBukkitItemStack(itemStack.getValue())));
         }
-        if (itemDisplayTransform.hasChanged()) {
+        if (itemDisplayTransform.hasChanged() || force) {
             data.add(ItemDisplayDataWrapper.displayType((byte) itemDisplayTransform.getValue().ordinal()));
         }
         return data;

@@ -62,15 +62,15 @@ public class ClientInteraction extends ClientEntity implements Interaction {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (interactionWidth.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (interactionWidth.hasChanged() || force) {
       data.add(InteractionDataWrapper.width(interactionWidth.getValue()));
     }
-    if (interactionHeight.hasChanged()) {
+    if (interactionHeight.hasChanged() || force) {
       data.add(InteractionDataWrapper.height(interactionHeight.getValue()));
     }
-    if (responsive.hasChanged()) {
+    if (responsive.hasChanged() || force) {
       data.add(InteractionDataWrapper.responsive(responsive.getBooleanValue()));
     }
     return data;

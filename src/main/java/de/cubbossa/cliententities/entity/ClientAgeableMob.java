@@ -18,9 +18,9 @@ public abstract class ClientAgeableMob extends ClientMob implements Ageable {
     }
 
     @Override
-    List<EntityData> metaData() {
-        List<EntityData> data = super.metaData();
-        if (baby.hasChanged()) {
+    List<EntityData> metaData(boolean force) {
+        List<EntityData> data = super.metaData(force);
+        if (baby.hasChanged() || force) {
             data.add(new EntityData(16, EntityDataTypes.BOOLEAN, baby.getBooleanValue()));
             baby.flushChanged();
         }

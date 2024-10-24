@@ -19,9 +19,9 @@ public class ClientSlime extends ClientMob implements Slime {
   }
 
   @Override
-  List<EntityData> metaData() {
-    var meta = super.metaData();
-    if (size.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    var meta = super.metaData(force);
+    if (size.hasChanged() || force) {
       meta.add(SlimeDataWrapper.size(size.getValue()));
     }
     return meta;

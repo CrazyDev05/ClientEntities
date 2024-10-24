@@ -29,9 +29,9 @@ public class ClientVillager extends ClientAbstractVillager implements Villager {
     }
 
     @Override
-    List<EntityData> metaData() {
-        List<EntityData> data = super.metaData();
-        if (villagerLevel.hasChanged() || villagerType.hasChanged() || profession.hasChanged()) {
+    List<EntityData> metaData(boolean force) {
+        List<EntityData> data = super.metaData(force);
+        if (villagerLevel.hasChanged() || villagerType.hasChanged() || profession.hasChanged() || force) {
             data.add(new EntityData(18, EntityDataTypes.VILLAGER_DATA, new VillagerData(
                     villagerType.getValue().ordinal(), profession.getValue().ordinal(), villagerLevel.getValue()
             )));

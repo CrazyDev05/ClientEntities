@@ -33,8 +33,8 @@ public class ClientFireWork extends ClientEntity implements Firework {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
     if (fireWorkInfo.getValue() != null) {
       data.add(new EntityData(8, EntityDataTypes.ITEMSTACK, SpigotConversionUtil.fromBukkitItemStack(fireWorkInfo.getValue())));
     }

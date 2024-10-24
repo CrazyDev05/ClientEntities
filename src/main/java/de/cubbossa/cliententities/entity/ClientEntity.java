@@ -180,7 +180,7 @@ public class ClientEntity implements ClientViewElement, Entity {
     }
 
     // Change location
-    if (location != null && !location.equals(previousLocation)) {
+    if (location != null && (!location.equals(previousLocation) || !onlyIfChanged)) {
       if (previousLocation != null && location.toVector().equals(previousLocation.toVector())) {
         result.add(PacketInfo.packet(new WrapperPlayServerEntityRotation(entityId, location.getYaw(), location.getPitch(), true)));
       } else if (previousLocation != null && location.distanceSquared(previousLocation) < 64) {
@@ -211,7 +211,7 @@ public class ClientEntity implements ClientViewElement, Entity {
     }
 
     // change velocity
-    if (velocity.hasChanged() && velocity.getValue() != null) {
+    if ((velocity.hasChanged() || !onlyIfChanged) && velocity.getValue() != null) {
       result.add(PacketInfo.packet(
           new WrapperPlayServerEntityVelocity(entityId, new Vector3d(velocity.getValue().getX(), velocity.getValue().getY(), velocity.getValue().getZ()))
       ));
@@ -219,11 +219,11 @@ public class ClientEntity implements ClientViewElement, Entity {
     }
 
     // Change Meta Data
-    if (metaChanged) {
+    if (metaChanged || !onlyIfChanged) {
       entityLock.lock();
       try {
-        if (metaChanged) {
-          List<EntityData> data = metaData();
+        if (metaChanged || !onlyIfChanged) {
+          List<EntityData> data = metaData(!onlyIfChanged);
           result.add(PacketInfo.packet(new WrapperPlayServerEntityMetadata(entityId, data)));
           metaChanged = false;
         }
@@ -235,7 +235,7 @@ public class ClientEntity implements ClientViewElement, Entity {
     }
 
     // Update Passengers
-    if (passengersChanged) {
+    if (passengersChanged || !onlyIfChanged) {
       result.add(PacketInfo.packet(
           new WrapperPlayServerSetPassengers(entityId, passengers.stream().mapToInt(Integer::intValue).toArray())
       ));
@@ -252,37 +252,37 @@ public class ClientEntity implements ClientViewElement, Entity {
       onFire, crouching, null, sprinting, swimming, invisible, glowing, elytraFlying
   );
 
-  List<EntityData> metaData() {
+  List<EntityData> metaData(boolean force) {
     List<EntityData> data = new ArrayList<>();
 
-    if (metaMask.hasChanged()) {
+    if (metaMask.hasChanged() || force) {
       data.add(new EntityData(0, EntityDataTypes.BYTE, metaMask.byteVal()));
     }
-    if (airTicks.hasChanged()) {
+    if (airTicks.hasChanged() || force) {
       data.add(EntityDataWrapper.remainingAir(airTicks.getValue()));
       airTicks.flushChanged();
     }
-    if (customName.hasChanged()) {
+    if (customName.hasChanged() || force) {
       data.add(EntityDataWrapper.customName(customName.getValue()));
       customName.flushChanged();
     }
-    if (customNameVisible.hasChanged()) {
+    if (customNameVisible.hasChanged() || force) {
       data.add(EntityDataWrapper.customNameVisible(customNameVisible.getBooleanValue()));
       customNameVisible.flushChanged();
     }
-    if (silent.hasChanged()) {
+    if (silent.hasChanged() || force) {
       data.add(EntityDataWrapper.silent(silent.getBooleanValue()));
       silent.flushChanged();
     }
-    if (gravity.hasChanged()) {
+    if (gravity.hasChanged() || force) {
       data.add(EntityDataWrapper.noGravity(!gravity.getBooleanValue()));
       gravity.flushChanged();
     }
-    if (pose.hasChanged()) {
+    if (pose.hasChanged() || force) {
       data.add(EntityDataWrapper.pose(EntityPose.values()[pose.getValue().ordinal()]));
       pose.flushChanged();
     }
-    if (frozen.hasChanged()) {
+    if (frozen.hasChanged() || force) {
       data.add(EntityDataWrapper.frozenTicks(frozen.getBooleanValue() ? 1000 : 0));
       frozen.flushChanged();
     }

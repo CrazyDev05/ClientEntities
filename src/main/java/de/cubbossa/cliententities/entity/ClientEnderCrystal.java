@@ -23,9 +23,9 @@ public class ClientEnderCrystal extends ClientEntity implements EnderCrystal {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (showingBottom.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (showingBottom.hasChanged() || force) {
       data.add(new EntityData(8, EntityDataTypes.BOOLEAN, showingBottom.getBooleanValue()));
     }
     data.add(new EntityData(9, EntityDataTypes.OPTIONAL_BLOCK_POSITION, beamTarget.getValue() == null

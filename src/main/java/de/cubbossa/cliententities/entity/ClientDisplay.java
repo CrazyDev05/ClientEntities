@@ -179,37 +179,37 @@ public class ClientDisplay extends ClientEntity implements Display {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (interpolationDelay.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (interpolationDelay.hasChanged() || force) {
       data.add(DisplayDataWrapper.interpolationDelay(interpolationDelay.getValue()));
       interpolationDelay.flushChanged();
     }
-    if (interpolationDuration.hasChanged()) {
+    if (interpolationDuration.hasChanged() || force) {
       data.add(DisplayDataWrapper.interpolationDuration(interpolationDuration.getValue()));
       interpolationDuration.flushChanged();
     }
-    if(translation.hasChanged()) {
+    if(translation.hasChanged() || force) {
       data.add(DisplayDataWrapper.translation(convert(translation.getValue())));
       translation.flushChanged();
     }
-    if(leftRotation.hasChanged()) {
+    if(leftRotation.hasChanged() || force) {
       data.add(DisplayDataWrapper.leftRotation(convert(leftRotation.getValue())));
       leftRotation.flushChanged();
     }
-    if(scale.hasChanged()) {
+    if(scale.hasChanged() || force) {
       data.add(DisplayDataWrapper.scale(convert(scale.getValue())));
       scale.flushChanged();
     }
-    if(rightRotation.hasChanged()) {
+    if(rightRotation.hasChanged() || force) {
       data.add(DisplayDataWrapper.rightRotation(convert(rightRotation.getValue())));
       rightRotation.flushChanged();
     }
-    if (billboard.hasChanged()) {
+    if (billboard.hasChanged() || force) {
       data.add(DisplayDataWrapper.billboardConstraints(billboard.getValue()));
       billboard.flushChanged();
     }
-    if (brightness.hasChanged()) {
+    if (brightness.hasChanged() || force) {
       if (brightness.getValue() == null) {
         data.add(DisplayDataWrapper.brightnessOverride());
       } else {
@@ -217,27 +217,27 @@ public class ClientDisplay extends ClientEntity implements Display {
       }
       brightness.flushChanged();
     }
-    if (viewRange.hasChanged()) {
+    if (viewRange.hasChanged() || force) {
       data.add(DisplayDataWrapper.viewRange(viewRange.getValue()));
       viewRange.flushChanged();
     }
-    if (shadowRadius.hasChanged()) {
+    if (shadowRadius.hasChanged() || force) {
       data.add(DisplayDataWrapper.shadowRadius(shadowRadius.getValue()));
       shadowRadius.flushChanged();
     }
-    if (shadowStrength.hasChanged()) {
+    if (shadowStrength.hasChanged() || force) {
       data.add(DisplayDataWrapper.shadowStrength(shadowStrength.getValue()));
       shadowRadius.flushChanged();
     }
-    if (displayWidth.hasChanged()) {
+    if (displayWidth.hasChanged() || force) {
       data.add(DisplayDataWrapper.width(displayWidth.getValue()));
       displayWidth.flushChanged();
     }
-    if (displayHeight.hasChanged()) {
+    if (displayHeight.hasChanged() || force) {
       data.add(DisplayDataWrapper.height(displayHeight.getValue()));
       displayHeight.flushChanged();
     }
-    if (glowColorOverride.hasChanged()) {
+    if (glowColorOverride.hasChanged() || force) {
       if (glowColorOverride.getValue() == null) {
         data.add(DisplayDataWrapper.glowColorOverride());
       } else {

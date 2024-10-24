@@ -22,9 +22,9 @@ public abstract class ClientMob extends ClientLivingEntity implements Mob {
   }
 
   @Override
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (leftHanded.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (leftHanded.hasChanged() || force) {
       data.add(new EntityData(15, EntityDataTypes.BYTE, (byte) (
           0x1 | (leftHanded.getBooleanValue() ? 0x2 : 0)
       )));

@@ -24,8 +24,8 @@ public class ClientEyeOfEnder extends ClientEntity implements EnderSignal {
     }
 
     @Override
-    List<EntityData> metaData() {
-        List<EntityData> data = super.metaData();
+    List<EntityData> metaData(boolean force) {
+        List<EntityData> data = super.metaData(force);
         if (item != null) {
             data.add(new EntityData(8, EntityDataTypes.ITEMSTACK, item));
         }

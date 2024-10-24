@@ -212,27 +212,27 @@ public class ClientArmorStand extends ClientLivingEntity implements ArmorStand {
     return new Vector3f((float) eulerAngle.getX(), (float) eulerAngle.getY(), (float) eulerAngle.getZ());
   }
 
-  List<EntityData> metaData() {
-    List<EntityData> data = super.metaData();
-    if (armorStandMask.hasChanged()) {
+  List<EntityData> metaData(boolean force) {
+    List<EntityData> data = super.metaData(force);
+    if (armorStandMask.hasChanged() || force) {
       data.add(ArmorStandDataWrapper.options(armorStandMask.byteVal()).build());
     }
-    if (headPose.hasChanged()) {
+    if (headPose.hasChanged() || force) {
       data.add(ArmorStandDataWrapper.headPose(convert(headPose.getValue())));
     }
-    if (bodyPose.hasChanged()) {
+    if (bodyPose.hasChanged() || force) {
       data.add(ArmorStandDataWrapper.bodyPose(convert(bodyPose.getValue())));
     }
-    if (leftArmPose.hasChanged()) {
+    if (leftArmPose.hasChanged() || force) {
       data.add(ArmorStandDataWrapper.leftArmPose(convert(leftArmPose.getValue())));
     }
-    if (rightArmPose.hasChanged()) {
+    if (rightArmPose.hasChanged() || force) {
       data.add(ArmorStandDataWrapper.rightArmPose(convert(rightArmPose.getValue())));
     }
-    if (leftLegPose.hasChanged()) {
+    if (leftLegPose.hasChanged() || force) {
       data.add(ArmorStandDataWrapper.leftLegPose(convert(leftLegPose.getValue())));
     }
-    if (rightLegPose.hasChanged()) {
+    if (rightLegPose.hasChanged() || force) {
       data.add(ArmorStandDataWrapper.rightLegPose(convert(rightLegPose.getValue())));
     }
     return data;
