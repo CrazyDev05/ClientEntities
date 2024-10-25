@@ -24,7 +24,7 @@ public class ClientArmorStand extends ClientLivingEntity implements ArmorStand {
   TrackedBoolField basePlate = new TrackedBoolField(true);
   TrackedBoolField marker = new TrackedBoolField();
   TrackedBoolField arms = new TrackedBoolField();
-  TrackedMask armorStandMask = new TrackedMask(small, arms, basePlate, marker);
+  TrackedMask armorStandMask = new TrackedMask(small, gravity, arms, basePlate, marker);
 
   TrackedField<EulerAngle> headPose = new TrackedField<>(new EulerAngle(0, 0, 0));
   TrackedField<EulerAngle> bodyPose = new TrackedField<>(new EulerAngle(0, 0, 0));
